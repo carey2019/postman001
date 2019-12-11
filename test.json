@@ -1,0 +1,1925 @@
+{
+	"info": {
+		"_postman_id": "6541350b-8524-4a78-aaac-199195444a5a",
+		"name": "test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "登录",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7bd31424-229f-46a1-8779-fa3f8f287ca4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "abaf48ff-75e9-4de5-bc51-cf3f831e8718",
+						"exec": [
+							"var dy = JSON.parse(responseBody);",
+							"",
+							"pm.environment.set(\"access_token\", dy.data.access_token);",
+							"pm.environment.set(\"userkey\", dy.data.userkey);",
+							"pm.environment.set(\"refresh_token\", dy.data.refresh_token);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"msg是否=success\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.msg).to.eql(\"success\");",
+							"});",
+							"pm.test(\"userkey不为空\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.userkey).to.not.equal(null);",
+							"    ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "deviceId",
+						"value": "sdfsd",
+						"type": "text"
+					},
+					{
+						"key": "x-ada-platform",
+						"value": "ios",
+						"type": "text"
+					},
+					{
+						"key": "clientType",
+						"value": "cx",
+						"type": "text"
+					},
+					{
+						"key": "platform",
+						"value": "ios",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mobile\": \"{{phone}}\",\n    \"smsCode\": \"8888\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Host}}/api/user/login/smscode",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"login",
+						"smscode"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "设置隐私",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c5e6c698-0935-4fde-97d6-0d1916128178",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "deviceId",
+						"value": "sdfsd",
+						"type": "text"
+					},
+					{
+						"key": "x-ada-platform",
+						"value": "ios",
+						"type": "text"
+					},
+					{
+						"key": "clientType",
+						"value": "cx",
+						"type": "text"
+					},
+					{
+						"key": "platform",
+						"value": "ios",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"MINIMUM_LEGAL_AGE\": true,\n  \"TERMS_AND_CONDITIONS\": true,\n  \"PRIVACY_POLICY\": true,\n  \"CLINICAL_TRIALS\": true,\n  \"THIRD_PARTY_CONSENT\": true\n}"
+				},
+				"url": {
+					"raw": "{{Host}}/api/user/{{userkey}}/privacy-settings",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"{{userkey}}",
+						"privacy-settings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "刷新token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c86b6324-cecf-4e64-b2ec-de3583b01d38",
+						"exec": [
+							"var res = JSON.parse(responseBody);",
+							"pm.environment.set(\"token\",res.data.access_token);",
+							"",
+							"pm.test(\"token不为空\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.access_token).to.not.eql(null);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "deviceId",
+						"value": "sdfsd",
+						"type": "text"
+					},
+					{
+						"key": "x-ada-platform",
+						"value": "ios",
+						"type": "text"
+					},
+					{
+						"key": "clientType",
+						"value": "cx",
+						"type": "text"
+					},
+					{
+						"key": "platform",
+						"value": "ios",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"refresh_token\": \"{{refresh_token}}\"\n}"
+				},
+				"url": {
+					"raw": "{{Host}}/api/oauth/refresh_token",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"oauth",
+						"refresh_token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "姓名",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b34ca8d5-e538-4c40-b9bd-3dac1ce5119c",
+						"exec": [
+							"var CryptoJS = require('crypto-js');\r",
+							"var aesDecrypt = (string, key) => {\r",
+							"    console.log(\"解密前:\\n\" + string);\r",
+							"    var res = CryptoJS.AES.decrypt(string, key, {\r",
+							"      mode: CryptoJS.mode.ECB,\r",
+							"      padding: CryptoJS.pad.Pkcs7,\r",
+							"    }).toString(CryptoJS.enc.Utf8);\r",
+							"    console.log(\"解密后:\\n\" + res);\r",
+							"    return res;\r",
+							"}\r",
+							"\r",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));\r",
+							"console.log(\"加密key：\" + pm.environment.get(\"userkey\"));\r",
+							"\r",
+							"\r",
+							"var string = responseBody;\r",
+							"console.log(\"string:\\n\" + string);\r",
+							"\r",
+							"var xmjm=JSON.parse(aesDecrypt(string, key));\r",
+							"console.log(xmjm);\r",
+							"\r",
+							"\r",
+							"pm.test(\"answer是否为空\", function () {\r",
+							"    pm.expect(xmjm.items[0].answers).to.not.eql(null);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});console.log(xmjm.items[0].answers)"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51b4b7b4-3fd8-4b16-9799-89c2301603af",
+						"exec": [
+							"var CryptoJS = require('crypto-js');\r",
+							"\r",
+							"var aesEncrypt = (string, key) => {\r",
+							"    console.log(\"加密前:\\n\" + string);\r",
+							"    var res = CryptoJS.AES.encrypt(string, key, {\r",
+							"      mode: CryptoJS.mode.ECB,\r",
+							"      padding: CryptoJS.pad.Pkcs7,\r",
+							"    }).ciphertext.toString(CryptoJS.enc.Base64);\r",
+							"    console.log(\"加密后:\\n\" + res);\r",
+							"    return res;\r",
+							"}\r",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));\r",
+							"\r",
+							"console.log(\"key:\\n\" + pm.environment.get(\"userkey\"));\r",
+							"var a = {\r",
+							"    \"stateId\": \"DASHBOARD_GIBBERISH\",\r",
+							"    \"id\": \"DASHBOARD_GIBBERISH-1574330143228-0\",\r",
+							"    \"stateMachineIdStack\": [],\r",
+							"    \"answer\": {\r",
+							"        \"transitionId\": \"PROFILE_CREATION_NAME\",\r",
+							"        \"label\": \"请输入你的姓名\",\r",
+							"        \"undo\": \"LOCAL\",\r",
+							"        \"type\": \"TEXT_INPUT\",\r",
+							"        \"perform\": \"REMOTE\",\r",
+							"        \"stateMachineId\": \"MAIN_PROFILE_CREATION\",\r",
+							"        \"maxLength\": 32,\r",
+							"        \"inputRequired\": true,\r",
+							"        \"input\": \"享受\",\r",
+							"        \"accountLabels\": []\r",
+							"    },\r",
+							"    \"selectedAnswer\": 0\r",
+							"};\r",
+							"var string=JSON.stringify(a);\r",
+							"\r",
+							"var xingming = aesEncrypt(string, key);\r",
+							"pm.environment.set(\"xingming\", xingming);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "text/plain",
+						"type": "text"
+					},
+					{
+						"key": "deviceId",
+						"value": "1233444",
+						"type": "text"
+					},
+					{
+						"key": "x-ada-platform",
+						"value": "ios",
+						"type": "text"
+					},
+					{
+						"key": "clientType",
+						"value": "cx",
+						"type": "text"
+					},
+					{
+						"key": "platform",
+						"value": "ios",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{xingming}}",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Host}}/api/mh/dialog",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"mh",
+						"dialog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "选择男女",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4e7bff41-f0bf-42cd-88dd-f2eee3a4f55c",
+						"exec": [
+							"var CryptoJS = require('crypto-js');\r",
+							"\r",
+							"var aesEncrypt = (string, key) => {\r",
+							"    console.log(\"加密前:\\n\" + string);\r",
+							"    var res = CryptoJS.AES.encrypt(string, key, {\r",
+							"      mode: CryptoJS.mode.ECB,\r",
+							"      padding: CryptoJS.pad.Pkcs7,\r",
+							"    }).ciphertext.toString(CryptoJS.enc.Base64);\r",
+							"    console.log(\"加密后:\\n\" + res);\r",
+							"    return res;\r",
+							"}\r",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));\r",
+							"console.log(\"key:\\n\" + pm.environment.get(\"userkey\"));\r",
+							"var a = {\r",
+							"  \"stateId\": \"ARE_YOU_MALE_OR_FEMALE\",\r",
+							"  \"id\": \"ARE_YOU_MALE_OR_FEMALE-1572855617162-0\",\r",
+							"  \"stateMachineIdStack\": [\r",
+							"    \"MAIN_PROFILE_CREATION\"\r",
+							"  ],\r",
+							"  \"answer\": {\r",
+							"    \"transitionId\": \"PROFILE_CREATION_SEX\",\r",
+							"    \"label\": \"男性\",\r",
+							"    \"undo\": \"LOCAL\",\r",
+							"    \"type\": \"GENERIC_BUTTON\",\r",
+							"    \"perform\": \"REMOTE\",\r",
+							"    \"profileName\": \"ada测试\",\r",
+							"    \"profileSex\": \"MALE\",\r",
+							"    \"inputRequired\": false,\r",
+							"    \"accountLabels\": []\r",
+							"  },\r",
+							"  \"selectedAnswer\": 0\r",
+							"};\r",
+							"var string=JSON.stringify(a);\r",
+							"console.log(\"string:\\n\"+string);\r",
+							"var xingbie = aesEncrypt(string, key);\r",
+							"pm.environment.set(\"xingbie\", xingbie);\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "40ebd758-2f1f-45a0-96db-2b1c3ec0f3b7",
+						"exec": [
+							"var CryptoJS = require('crypto-js');",
+							"var aesDecrypt = (string, key) => {",
+							"    console.log(\"解密前:\\n\" + string);",
+							"    var res = CryptoJS.AES.decrypt(string, key, {",
+							"      mode: CryptoJS.mode.ECB,",
+							"      padding: CryptoJS.pad.Pkcs7,",
+							"    }).toString(CryptoJS.enc.Utf8);",
+							"    console.log(\"解密后:\\n\" + res);",
+							"    return res;",
+							"}",
+							"",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));",
+							"console.log(\"加密key：\" + pm.environment.get(\"userkey\"));",
+							"",
+							"",
+							"var string = responseBody;",
+							"console.log(\"string:\\n\" + string);",
+							"",
+							"var sex=JSON.parse(aesDecrypt(string, key));",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "text/plain",
+						"type": "text"
+					},
+					{
+						"key": "deviceId",
+						"value": "1233444",
+						"type": "text"
+					},
+					{
+						"key": "x-ada-platform",
+						"value": "ios",
+						"type": "text"
+					},
+					{
+						"key": "clientType",
+						"value": "cx",
+						"type": "text"
+					},
+					{
+						"key": "platform",
+						"value": "ios",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{xingbie}}",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Host}}/api/mh/dialog",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"mh",
+						"dialog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "出生年月--可获取profileKey",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "621c66f1-8b6a-4b2a-973b-9030705d85a6",
+						"exec": [
+							"var CryptoJS = require('crypto-js');\r",
+							"var aesDecrypt = (string, key) => {\r",
+							"    console.log(\"解密前:\\n\" + string);\r",
+							"    var res = CryptoJS.AES.decrypt(string, key, {\r",
+							"      mode: CryptoJS.mode.ECB,\r",
+							"      padding: CryptoJS.pad.Pkcs7,\r",
+							"    }).toString(CryptoJS.enc.Utf8);\r",
+							"    console.log(\"解密后:\\n\" + res);\r",
+							"    return res;\r",
+							"}\r",
+							"\r",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));\r",
+							"console.log(\"加密key：\" + pm.environment.get(\"userkey\"));\r",
+							"\r",
+							"\r",
+							"var string = responseBody;\r",
+							"console.log(\"string:\\n\" + string);\r",
+							"\r",
+							"var body=JSON.parse(aesDecrypt(string, key));\r",
+							"console.log(body);\r",
+							"pm.environment.set(\"profileKey\", body.items[0].answers[0].profileKey);\r",
+							"console.log(pm.environment.get(\"profileKey\"));\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1265463c-6a0a-45cc-9573-d45f53e0afe3",
+						"exec": [
+							"var CryptoJS = require('crypto-js');\r",
+							"\r",
+							"var aesEncrypt = (string, key) => {\r",
+							"    console.log(\"加密前:\\n\" + string);\r",
+							"    var res = CryptoJS.AES.encrypt(string, key, {\r",
+							"      mode: CryptoJS.mode.ECB,\r",
+							"      padding: CryptoJS.pad.Pkcs7,\r",
+							"    }).ciphertext.toString(CryptoJS.enc.Base64);\r",
+							"    console.log(\"加密后:\\n\" + res);\r",
+							"    return res;\r",
+							"}\r",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));\r",
+							"console.log(\"key:\\n\" + pm.environment.get(\"userkey\"));\r",
+							"var a = {\r",
+							"  \"stateId\": \"WHAT_IS_DATE_OF_BIRTH\",\r",
+							"  \"id\": \"WHAT_IS_DATE_OF_BIRTH-1572855621550-0\",\r",
+							"  \"stateMachineIdStack\": [\r",
+							"    \"MAIN_PROFILE_CREATION\"\r",
+							"  ],\r",
+							"  \"answer\": {\r",
+							"    \"transitionId\": \"PROFILE_CREATION_BIRTHDAY\",\r",
+							"    \"label\": \"确定\",\r",
+							"    \"undo\": \"NONE\",\r",
+							"    \"type\": \"DATE_INPUT\",\r",
+							"    \"perform\": \"REMOTE\",\r",
+							"    \"profileName\": \"哈哈哈\",\r",
+							"    \"profileSex\": \"MALE\",\r",
+							"    \"inputRequired\": true,\r",
+							"    \"minimumDate\": \"1919-11-04T00:00:00Z\",\r",
+							"    \"maximumDate\": \"2001-11-04T00:00:00Z\",\r",
+							"    \"input\": \"1985-01-01T04:00:00.000Z\",\r",
+							"    \"accountLabels\": []\r",
+							"  },\r",
+							"  \"selectedAnswer\": 0\r",
+							"};\r",
+							"var string=JSON.stringify(a);\r",
+							"console.log(\"string:\\n\"+string);\r",
+							"var shengri = aesEncrypt(string, key);\r",
+							"pm.environment.set(\"shengri\", shengri);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "text/plain",
+						"type": "text"
+					},
+					{
+						"key": "deviceId",
+						"value": "1233444",
+						"type": "text"
+					},
+					{
+						"key": "x-ada-platform",
+						"value": "ios",
+						"type": "text"
+					},
+					{
+						"key": "clientType",
+						"value": "cx",
+						"type": "text"
+					},
+					{
+						"key": "platform",
+						"value": "ios",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{shengri}}"
+				},
+				"url": {
+					"raw": "{{Host}}/api/mh/dialog",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"mh",
+						"dialog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "是否抽烟",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cfc1cafb-c06c-4b18-a3f3-ea6fa8963de6",
+						"exec": [
+							"var CryptoJS = require('crypto-js');\r",
+							"\r",
+							"var aesEncrypt = (string, key) => {\r",
+							"    console.log(\"加密前:\\n\" + string);\r",
+							"    var res = CryptoJS.AES.encrypt(string, key, {\r",
+							"      mode: CryptoJS.mode.ECB,\r",
+							"      padding: CryptoJS.pad.Pkcs7,\r",
+							"    }).ciphertext.toString(CryptoJS.enc.Base64);\r",
+							"    console.log(\"加密后:\\n\" + res);\r",
+							"    return res;\r",
+							"}\r",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));\r",
+							"console.log(\"key:\\n\" + pm.environment.get(\"userkey\"));\r",
+							"var a = {\r",
+							"  \"stateId\": \"ONBOARDING_FACTOR_SMOKER\",\r",
+							"  \"id\": \"ONBOARDING_FACTOR_SMOKER-1572855626976-0\",\r",
+							"  \"stateMachineIdStack\": [\r",
+							"    \"MAIN_PROFILE_CREATION\"\r",
+							"  ],\r",
+							"  \"answer\": {\r",
+							"    \"transitionId\": \"NO\",\r",
+							"    \"label\": \"否\",\r",
+							"    \"undo\": \"REMOTE\",\r",
+							"    \"type\": \"GENERIC_BUTTON\",\r",
+							"    \"perform\": \"REMOTE\",\r",
+							"    \"profileKey\": pm.environment.get(\"profileKey\"),\r",
+							"    \"inputRequired\": false,\r",
+							"    \"accountLabels\": []\r",
+							"  },\r",
+							"  \"selectedAnswer\": 1\r",
+							"};\r",
+							"var string=JSON.stringify(a);\r",
+							"console.log(\"string:\\n\"+string);\r",
+							"var chouyan = aesEncrypt(string, key);\r",
+							"pm.environment.set(\"chouyan\", chouyan);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "773a5f9c-8a0d-4255-817b-dd4d84072171",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "text/plain",
+						"type": "text"
+					},
+					{
+						"key": "deviceId",
+						"value": "1233444",
+						"type": "text"
+					},
+					{
+						"key": "x-ada-platform",
+						"value": "ios",
+						"type": "text"
+					},
+					{
+						"key": "clientType",
+						"value": "cx",
+						"type": "text"
+					},
+					{
+						"key": "platform",
+						"value": "ios",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{chouyan}}"
+				},
+				"url": {
+					"raw": "{{Host}}/api/mh/dialog",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"mh",
+						"dialog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "是否有高血压",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e7c40fd2-5a8b-4fe8-98fe-ce1fa2813310",
+						"exec": [
+							"var CryptoJS = require('crypto-js');\r",
+							"\r",
+							"var aesEncrypt = (string, key) => {\r",
+							"    console.log(\"加密前:\\n\" + string);\r",
+							"    var res = CryptoJS.AES.encrypt(string, key, {\r",
+							"      mode: CryptoJS.mode.ECB,\r",
+							"      padding: CryptoJS.pad.Pkcs7,\r",
+							"    }).ciphertext.toString(CryptoJS.enc.Base64);\r",
+							"    console.log(\"加密后:\\n\" + res);\r",
+							"    return res;\r",
+							"}\r",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));\r",
+							"console.log(\"key:\\n\" + pm.environment.get(\"userkey\"));\r",
+							"var a = {\r",
+							"  \"stateId\": \"ONBOARDING_FACTOR_HYPERTENSION\",\r",
+							"  \"id\": \"ONBOARDING_FACTOR_HYPERTENSION-1573463745422-0\",\r",
+							"  \"stateMachineIdStack\": [\r",
+							"    \"MAIN_PROFILE_CREATION\"\r",
+							"  ],\r",
+							"  \"answer\": {\r",
+							"    \"transitionId\": \"NO\",\r",
+							"    \"label\": \"否\",\r",
+							"    \"undo\": \"REMOTE\",\r",
+							"    \"type\": \"GENERIC_BUTTON\",\r",
+							"    \"perform\": \"REMOTE\",\r",
+							"    \"profileKey\": pm.environment.get(\"profileKey\"),\r",
+							"    \"inputRequired\": false,\r",
+							"    \"accountLabels\": []\r",
+							"  },\r",
+							"  \"selectedAnswer\": 1\r",
+							"};\r",
+							"var string=JSON.stringify(a);\r",
+							"console.log(\"string:\\n\"+string);\r",
+							"var gxy = aesEncrypt(string, key);\r",
+							"pm.environment.set(\"gxy\", gxy);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "810c8a7e-c703-4625-af3b-f7e403db1849",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "text/plain",
+						"type": "text"
+					},
+					{
+						"key": "deviceId",
+						"value": "1233444",
+						"type": "text"
+					},
+					{
+						"key": "x-ada-platform",
+						"value": "ios",
+						"type": "text"
+					},
+					{
+						"key": "clientType",
+						"value": "cx",
+						"type": "text"
+					},
+					{
+						"key": "platform",
+						"value": "ios",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{gxy}}"
+				},
+				"url": {
+					"raw": "{{Host}}/api/mh/dialog",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"mh",
+						"dialog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "是否有糖尿病",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fc4fd058-ff35-4e89-bd59-3d9abb105633",
+						"exec": [
+							"var CryptoJS = require('crypto-js');\r",
+							"\r",
+							"var aesEncrypt = (string, key) => {\r",
+							"    console.log(\"加密前:\\n\" + string);\r",
+							"    var res = CryptoJS.AES.encrypt(string, key, {\r",
+							"      mode: CryptoJS.mode.ECB,\r",
+							"      padding: CryptoJS.pad.Pkcs7,\r",
+							"    }).ciphertext.toString(CryptoJS.enc.Base64);\r",
+							"    console.log(\"加密后:\\n\" + res);\r",
+							"    return res;\r",
+							"}\r",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));\r",
+							"console.log(\"key:\\n\" + pm.environment.get(\"userkey\"));\r",
+							"var a = {\r",
+							"  \"stateId\": \"ONBOARDING_FACTOR_DIABETES\",\r",
+							"  \"id\": \"ONBOARDING_FACTOR_DIABETES-1572856311845-0\",\r",
+							"  \"stateMachineIdStack\": [\r",
+							"    \"MAIN_PROFILE_CREATION\"\r",
+							"  ],\r",
+							"  \"answer\": {\r",
+							"    \"transitionId\": \"NO\",\r",
+							"    \"label\": \"否\",\r",
+							"    \"undo\": \"REMOTE\",\r",
+							"    \"type\": \"GENERIC_BUTTON\",\r",
+							"    \"perform\": \"REMOTE\",\r",
+							"    \"profileKey\": pm.environment.get(\"profileKey\"),\r",
+							"    \"inputRequired\": false,\r",
+							"    \"accountLabels\": []\r",
+							"  },\r",
+							"  \"selectedAnswer\": 1\r",
+							"};\r",
+							"var string=JSON.stringify(a);\r",
+							"console.log(\"string:\\n\"+string);\r",
+							"var tnm = aesEncrypt(string, key);\r",
+							"pm.environment.set(\"tnm\", tnm);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "aa09be68-5519-4101-9fc4-10e07e8fc214",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "text/plain",
+						"type": "text"
+					},
+					{
+						"key": "deviceId",
+						"value": "1233444",
+						"type": "text"
+					},
+					{
+						"key": "x-ada-platform",
+						"value": "ios",
+						"type": "text"
+					},
+					{
+						"key": "clientType",
+						"value": "cx",
+						"type": "text"
+					},
+					{
+						"key": "platform",
+						"value": "ios",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{tnm}}"
+				},
+				"url": {
+					"raw": "{{Host}}/api/mh/dialog",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"mh",
+						"dialog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "开始评估",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "bf110b8a-1ebf-4dbe-a94b-e9846651dab2",
+						"exec": [
+							"var CryptoJS = require('crypto-js');\r",
+							"\r",
+							"var aesEncrypt = (string, key) => {\r",
+							"    console.log(\"加密前:\\n\" + string);\r",
+							"    var res = CryptoJS.AES.encrypt(string, key, {\r",
+							"      mode: CryptoJS.mode.ECB,\r",
+							"      padding: CryptoJS.pad.Pkcs7,\r",
+							"    }).ciphertext.toString(CryptoJS.enc.Base64);\r",
+							"    console.log(\"加密后:\\n\" + res);\r",
+							"    return res;\r",
+							"}\r",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));\r",
+							"console.log(\"key:\\n\" + pm.environment.get(\"userkey\"));\r",
+							"var a = {\r",
+							"  \"stateId\": \"THANK_YOU_JUST_START\",\r",
+							"  \"id\": \"THANK_YOU_JUST_START-1573463857580-0\",\r",
+							"  \"stateMachineIdStack\": [],\r",
+							"  \"answer\": {\r",
+							"    \"transitionId\": \"GET_HEALTH_ADVICE\",\r",
+							"    \"label\": \"开始评估症状\",\r",
+							"    \"undo\": \"LOCAL\",\r",
+							"    \"type\": \"GENERIC_BUTTON\",\r",
+							"    \"perform\": \"REMOTE\",\r",
+							"    \"profileKey\": pm.environment.get(\"profileKey\"),\r",
+							"    \"inputRequired\": false,\r",
+							"    \"accountLabels\": []\r",
+							"  },\r",
+							"  \"selectedAnswer\": 0\r",
+							"};\r",
+							"var string=JSON.stringify(a);\r",
+							"console.log(\"string:\\n\"+string);\r",
+							"var kspg = aesEncrypt(string, key);\r",
+							"pm.environment.set(\"kspg\", kspg);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "44ecfba1-df5c-4ebb-88d9-8636291fd046",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "text/plain"
+					},
+					{
+						"key": "deviceId",
+						"type": "text",
+						"value": "1233444"
+					},
+					{
+						"key": "x-ada-platform",
+						"type": "text",
+						"value": "ios"
+					},
+					{
+						"key": "clientType",
+						"type": "text",
+						"value": "cx"
+					},
+					{
+						"key": "platform",
+						"type": "text",
+						"value": "ios"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{kspg}}"
+				},
+				"url": {
+					"raw": "{{Host}}/api/mh/dialog",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"mh",
+						"dialog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "选择我自己---可获得casekey",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "25f1386d-5ad1-4ca8-9685-95391be2fec9",
+						"exec": [
+							"var CryptoJS = require('crypto-js');\r",
+							"var aesDecrypt = (string, key) => {\r",
+							"    console.log(\"解密前:\\n\" + string);\r",
+							"    var res = CryptoJS.AES.decrypt(string, key, {\r",
+							"      mode: CryptoJS.mode.ECB,\r",
+							"      padding: CryptoJS.pad.Pkcs7,\r",
+							"    }).toString(CryptoJS.enc.Utf8);\r",
+							"    console.log(\"解密后:\\n\" + res);\r",
+							"    return res;\r",
+							"}\r",
+							"\r",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));\r",
+							"console.log(\"加密key：\" + pm.environment.get(\"userkey\"));\r",
+							"\r",
+							"\r",
+							"var string = responseBody;\r",
+							"console.log(\"string:\\n\" + string);\r",
+							"\r",
+							"var body=JSON.parse(aesDecrypt(string, key));\r",
+							"console.log(body);\r",
+							"pm.environment.set(\"casekey\", body.items[0].answers[0].adaCaseKey);\r",
+							"console.log(pm.environment.get(\"casekey\"));\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b8866849-e436-4645-9a28-d2bd195e11dc",
+						"exec": [
+							"var CryptoJS = require('crypto-js');\r",
+							"\r",
+							"var aesEncrypt = (string, key) => {\r",
+							"    console.log(\"加密前:\\n\" + string);\r",
+							"    var res = CryptoJS.AES.encrypt(string, key, {\r",
+							"      mode: CryptoJS.mode.ECB,\r",
+							"      padding: CryptoJS.pad.Pkcs7,\r",
+							"    }).ciphertext.toString(CryptoJS.enc.Base64);\r",
+							"    console.log(\"加密后:\\n\" + res);\r",
+							"    return res;\r",
+							"}\r",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));\r",
+							"console.log(\"key:\\n\" + pm.environment.get(\"userkey\"));\r",
+							"var a = {\r",
+							"  \"stateId\": \"WHO_IS_THIS_ASSESSMENT_FOR\",\r",
+							"  \"id\": \"WHO_IS_THIS_ASSESSMENT_FOR-1573463859700-0\",\r",
+							"  \"stateMachineIdStack\": [],\r",
+							"  \"answer\": {\r",
+							"    \"transitionId\": \"PROFILE_SELECTED\",\r",
+							"    \"label\": \"我自己\",\r",
+							"    \"undo\": \"LOCAL\",\r",
+							"    \"type\": \"GENERIC_BUTTON\",\r",
+							"    \"perform\": \"REMOTE\",\r",
+							"    \"profileKey\": pm.environment.get(\"profileKey\"),\r",
+							"    \"inputRequired\": false,\r",
+							"    \"accountLabels\": []\r",
+							"  },\r",
+							"  \"selectedAnswer\": 0\r",
+							"};\r",
+							"var string=JSON.stringify(a);\r",
+							"console.log(\"string:\\n\"+string);\r",
+							"var myself = aesEncrypt(string, key);\r",
+							"pm.environment.set(\"myself\", myself);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "text/plain"
+					},
+					{
+						"key": "deviceId",
+						"type": "text",
+						"value": "1233444"
+					},
+					{
+						"key": "x-ada-platform",
+						"type": "text",
+						"value": "ios"
+					},
+					{
+						"key": "clientType",
+						"type": "text",
+						"value": "cx"
+					},
+					{
+						"key": "platform",
+						"type": "text",
+						"value": "ios"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{myself}}"
+				},
+				"url": {
+					"raw": "{{Host}}/api/mh/dialog",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"mh",
+						"dialog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "头皮痒",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "91dda38a-a9ea-4d39-b35d-fc51b69ad27d",
+						"exec": [
+							"var CryptoJS = require('crypto-js');",
+							"",
+							"var aesEncrypt = (string, key) => {",
+							"    console.log(\"加密前:\\n\" + string);",
+							"    var res = CryptoJS.AES.encrypt(string, key, {",
+							"      mode: CryptoJS.mode.ECB,",
+							"      padding: CryptoJS.pad.Pkcs7,",
+							"    }).ciphertext.toString(CryptoJS.enc.Base64);",
+							"    console.log(\"加密后:\\n\" + res);",
+							"    return res;",
+							"}",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));",
+							"console.log(\"key:\\n\" + pm.environment.get(\"userkey\"));",
+							"var a = {",
+							"  \"stateId\": \"OBLIGATORY_SEARCH\",",
+							"  \"id\": \"OBLIGATORY_SEARCH-1573463916984-0\",",
+							"  \"stateMachineIdStack\": [],",
+							"  \"answer\": {",
+							"    \"transitionId\": \"SEARCH\",",
+							"    \"label\": \"\",",
+							"    \"undo\": \"REMOTE\",",
+							"    \"type\": \"SYMPTOM_SEARCH\",",
+							"    \"perform\": \"REMOTE\",",
+							"    \"stateMachineId\": \"SEARCH\",",
+							"    \"profileKey\": pm.environment.get(\"profileKey\"),",
+							"    \"adaCaseKey\": pm.environment.get(\"casekey\"),",
+							"    \"inputRequired\": false,",
+							"    \"input\": \"finding:PruriticScalp\",",
+							"    \"accountLabels\": []",
+							"  },",
+							"  \"selectedAnswer\": 0",
+							"};",
+							"var string=JSON.stringify(a);",
+							"console.log(\"string:\\n\"+string);",
+							"var toupi = aesEncrypt(string, key);",
+							"pm.environment.set(\"toupi\", toupi);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "b043b956-1ff6-4116-8b68-220b844ea307",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "text/plain"
+					},
+					{
+						"key": "deviceId",
+						"type": "text",
+						"value": "1233444"
+					},
+					{
+						"key": "x-ada-platform",
+						"type": "text",
+						"value": "ios"
+					},
+					{
+						"key": "clientType",
+						"type": "text",
+						"value": "cx"
+					},
+					{
+						"key": "platform",
+						"type": "text",
+						"value": "ios"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{toupi}}"
+				},
+				"url": {
+					"raw": "{{Host}}/api/mh/dialog",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"mh",
+						"dialog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "选择一天到一周",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d4c0f25b-4e31-4874-aa3a-2337e2ab2584",
+						"exec": [
+							"var CryptoJS = require('crypto-js');\r",
+							"\r",
+							"var aesEncrypt = (string, key) => {\r",
+							"    console.log(\"加密前:\\n\" + string);\r",
+							"    var res = CryptoJS.AES.encrypt(string, key, {\r",
+							"      mode: CryptoJS.mode.ECB,\r",
+							"      padding: CryptoJS.pad.Pkcs7,\r",
+							"    }).ciphertext.toString(CryptoJS.enc.Base64);\r",
+							"    console.log(\"加密后:\\n\" + res);\r",
+							"    return res;\r",
+							"}\r",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));\r",
+							"console.log(\"key:\\n\" + pm.environment.get(\"userkey\"));\r",
+							"var a = {\r",
+							"  \"progress\": 0.16000000000000003,\r",
+							"  \"stateId\": \"ATTRIBUTE_QUESTION\",\r",
+							"  \"id\": \"ATTRIBUTE_QUESTION-1573465812103-0\",\r",
+							"  \"stateMachineIdStack\": [\r",
+							"    \"SEARCH\",\r",
+							"    \"SYMPTOM\"\r",
+							"  ],\r",
+							"  \"answer\": {\r",
+							"    \"transitionId\": \"YES\",\r",
+							"    \"label\": \"一天到一周\",\r",
+							"    \"undo\": \"REMOTE\",\r",
+							"    \"type\": \"GENERIC_BUTTON\",\r",
+							"    \"perform\": \"REMOTE\",\r",
+							"    \"adaCaseKey\": pm.environment.get(\"casekey\"),\r",
+							"    \"symptomKey\": \"finding:PruriticScalp\",\r",
+							"    \"attributeKey\": \"attribute:TimeSinceOnset\",\r",
+							"    \"attributeStateKey\": \"attribute:TimeSinceOnset:state:OneDayToOneWeek\",\r",
+							"    \"inputRequired\": false,\r",
+							"    \"accountLabels\": []\r",
+							"  },\r",
+							"  \"selectedAnswer\": 1\r",
+							"};\r",
+							"var string=JSON.stringify(a);\r",
+							"console.log(\"string:\\n\"+string);\r",
+							"var onetoten = aesEncrypt(string, key);\r",
+							"pm.environment.set(\"onetoten\", onetoten);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "955f4291-937f-4005-a685-54c656da9162",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "text/plain"
+					},
+					{
+						"key": "deviceId",
+						"type": "text",
+						"value": "1233444"
+					},
+					{
+						"key": "x-ada-platform",
+						"type": "text",
+						"value": "ios"
+					},
+					{
+						"key": "clientType",
+						"type": "text",
+						"value": "cx"
+					},
+					{
+						"key": "platform",
+						"type": "text",
+						"value": "ios"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{onetoten}}"
+				},
+				"url": {
+					"raw": "{{Host}}/api/mh/dialog",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"mh",
+						"dialog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "无其他症状",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3b0e32ab-41b6-466a-b224-eb7d894866f6",
+						"exec": [
+							"var CryptoJS = require('crypto-js');\r",
+							"\r",
+							"var aesEncrypt = (string, key) => {\r",
+							"    console.log(\"加密前:\\n\" + string);\r",
+							"    var res = CryptoJS.AES.encrypt(string, key, {\r",
+							"      mode: CryptoJS.mode.ECB,\r",
+							"      padding: CryptoJS.pad.Pkcs7,\r",
+							"    }).ciphertext.toString(CryptoJS.enc.Base64);\r",
+							"    console.log(\"加密后:\\n\" + res);\r",
+							"    return res;\r",
+							"}\r",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));\r",
+							"console.log(\"key:\\n\" + pm.environment.get(\"userkey\"));\r",
+							"var a = {\r",
+							"  \"progress\": 0.16000000000000003,\r",
+							"  \"stateId\": \"DO_YOU_HAVE_ANY_OTHER_SYMPTOMS\",\r",
+							"  \"id\": \"DO_YOU_HAVE_ANY_OTHER_SYMPTOMS-1573465851465-0\",\r",
+							"  \"stateMachineIdStack\": [\r",
+							"    \"SEARCH\"\r",
+							"  ],\r",
+							"  \"answer\": {\r",
+							"    \"transitionId\": \"NO\",\r",
+							"    \"label\": \"否\",\r",
+							"    \"undo\": \"LOCAL\",\r",
+							"    \"type\": \"GENERIC_BUTTON\",\r",
+							"    \"perform\": \"REMOTE\",\r",
+							"    \"adaCaseKey\": pm.environment.get(\"casekey\"),\r",
+							"    \"inputRequired\": false,\r",
+							"    \"accountLabels\": []\r",
+							"  },\r",
+							"  \"selectedAnswer\": 1\r",
+							"};\r",
+							"var string=JSON.stringify(a);\r",
+							"console.log(\"string:\\n\"+string);\r",
+							"var noelse = aesEncrypt(string, key);\r",
+							"pm.environment.set(\"noelse\", noelse);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "aac9e5cb-ac2c-48a2-b95a-fcb219b6232d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "text/plain"
+					},
+					{
+						"key": "deviceId",
+						"type": "text",
+						"value": "1233444"
+					},
+					{
+						"key": "x-ada-platform",
+						"type": "text",
+						"value": "ios"
+					},
+					{
+						"key": "clientType",
+						"type": "text",
+						"value": "cx"
+					},
+					{
+						"key": "platform",
+						"type": "text",
+						"value": "ios"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{noelse}}"
+				},
+				"url": {
+					"raw": "{{Host}}/api/mh/dialog",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"mh",
+						"dialog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "无头虱",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3f3ff52a-89a6-4114-ac65-994d8c15acef",
+						"exec": [
+							"var CryptoJS = require('crypto-js');\r",
+							"\r",
+							"var aesEncrypt = (string, key) => {\r",
+							"    console.log(\"加密前:\\n\" + string);\r",
+							"    var res = CryptoJS.AES.encrypt(string, key, {\r",
+							"      mode: CryptoJS.mode.ECB,\r",
+							"      padding: CryptoJS.pad.Pkcs7,\r",
+							"    }).ciphertext.toString(CryptoJS.enc.Base64);\r",
+							"    console.log(\"加密后:\\n\" + res);\r",
+							"    return res;\r",
+							"}\r",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));\r",
+							"console.log(\"key:\\n\" + pm.environment.get(\"userkey\"));\r",
+							"var a = {\r",
+							"  \"progress\": 0.16000000000000003,\r",
+							"  \"stateId\": \"FINDING_QUESTION\",\r",
+							"  \"id\": \"FINDING_QUESTION-1573465954458-0\",\r",
+							"  \"stateMachineIdStack\": [],\r",
+							"  \"answer\": {\r",
+							"    \"transitionId\": \"NO\",\r",
+							"    \"label\": \"否\",\r",
+							"    \"undo\": \"REMOTE\",\r",
+							"    \"type\": \"GENERIC_BUTTON\",\r",
+							"    \"perform\": \"REMOTE\",\r",
+							"    \"stateMachineId\": \"SYMPTOM\",\r",
+							"    \"adaCaseKey\": pm.environment.get(\"casekey\"),\r",
+							"    \"symptomKey\": \"finding:HeadLouse\",\r",
+							"    \"generatorStrategyKey\": \"associative\",\r",
+							"    \"inputRequired\": false,\r",
+							"    \"accountLabels\": []\r",
+							"  },\r",
+							"  \"selectedAnswer\": 1\r",
+							"};\r",
+							"var string=JSON.stringify(a);\r",
+							"console.log(\"string:\\n\"+string);\r",
+							"var nots = aesEncrypt(string, key);\r",
+							"pm.environment.set(\"nots\", nots);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "fcd633b9-d597-47f2-9a18-ecbe60eaa5d1",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "text/plain"
+					},
+					{
+						"key": "deviceId",
+						"type": "text",
+						"value": "1233444"
+					},
+					{
+						"key": "x-ada-platform",
+						"type": "text",
+						"value": "ios"
+					},
+					{
+						"key": "clientType",
+						"type": "text",
+						"value": "cx"
+					},
+					{
+						"key": "platform",
+						"type": "text",
+						"value": "ios"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{nots}}"
+				},
+				"url": {
+					"raw": "{{Host}}/api/mh/dialog",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"mh",
+						"dialog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "最后一个问题-越来越严重",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5a5f5af7-768c-4a2f-bde0-57ca7ce0b849",
+						"exec": [
+							"var CryptoJS = require('crypto-js');\r",
+							"\r",
+							"var aesEncrypt = (string, key) => {\r",
+							"    console.log(\"加密前:\\n\" + string);\r",
+							"    var res = CryptoJS.AES.encrypt(string, key, {\r",
+							"      mode: CryptoJS.mode.ECB,\r",
+							"      padding: CryptoJS.pad.Pkcs7,\r",
+							"    }).ciphertext.toString(CryptoJS.enc.Base64);\r",
+							"    console.log(\"加密后:\\n\" + res);\r",
+							"    return res;\r",
+							"}\r",
+							"var key = CryptoJS.enc.Utf8.parse(pm.environment.get(\"userkey\"));\r",
+							"console.log(\"key:\\n\" + pm.environment.get(\"userkey\"));\r",
+							"var a = {\r",
+							"  \"progress\": 1,\r",
+							"  \"stateId\": \"HOW_ARE_YOUR_SYMPTOMS_CHANGING_OVER_TIME\",\r",
+							"  \"id\": \"HOW_ARE_YOUR_SYMPTOMS_CHANGING_OVER_TIME-1573466009109-0\",\r",
+							"  \"stateMachineIdStack\": [],\r",
+							"  \"answer\": {\r",
+							"    \"transitionId\": \"SYMPTOM_COURSE_WORSE\",\r",
+							"    \"label\": \"越来越严重\",\r",
+							"    \"undo\": \"NONE\",\r",
+							"    \"type\": \"GENERIC_BUTTON\",\r",
+							"    \"perform\": \"REMOTE\",\r",
+							"    \"adaCaseKey\": pm.environment.get(\"casekey\"),\r",
+							"    \"inputRequired\": false,\r",
+							"    \"accountLabels\": []\r",
+							"  },\r",
+							"  \"selectedAnswer\": 0\r",
+							"};\r",
+							"var string=JSON.stringify(a);\r",
+							"console.log(\"string:\\n\"+string);\r",
+							"var lastone = aesEncrypt(string, key);\r",
+							"pm.environment.set(\"lastone\", lastone);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "8e94a79e-7267-471b-af04-3485babf0db0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "text/plain"
+					},
+					{
+						"key": "deviceId",
+						"type": "text",
+						"value": "1233444"
+					},
+					{
+						"key": "x-ada-platform",
+						"type": "text",
+						"value": "ios"
+					},
+					{
+						"key": "clientType",
+						"type": "text",
+						"value": "cx"
+					},
+					{
+						"key": "platform",
+						"type": "text",
+						"value": "ios"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{lastone}}"
+				},
+				"url": {
+					"raw": "{{Host}}/api/mh/dialog",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"mh",
+						"dialog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "报告分析",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3181d46d-ed79-45e8-9645-015e688f400f",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d4f85e1c-2047-411e-8966-d1dcde64ee32",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "text/plain"
+					},
+					{
+						"key": "deviceId",
+						"type": "text",
+						"value": "1233444"
+					},
+					{
+						"key": "x-ada-platform",
+						"type": "text",
+						"value": "ios"
+					},
+					{
+						"key": "clientType",
+						"type": "text",
+						"value": "cx"
+					},
+					{
+						"key": "platform",
+						"type": "text",
+						"value": "ios"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Host}}/api/mh/result/{{casekey}}",
+					"host": [
+						"{{Host}}"
+					],
+					"path": [
+						"api",
+						"mh",
+						"result",
+						"{{casekey}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
